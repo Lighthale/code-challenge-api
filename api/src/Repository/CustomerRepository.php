@@ -19,7 +19,6 @@ class CustomerRepository extends ServiceEntityRepository
         private ParameterBagInterface $parameterBag
     )
     {
-
         parent::__construct($registry, Customer::class);
     }
 

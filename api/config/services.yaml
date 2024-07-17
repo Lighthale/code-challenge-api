@@ -8,7 +8,6 @@ parameters:
     random_user_api_min_results: 150
     random_user_api_seed: 'abc'
     random_user_api_nationality: 'au'
-    
     store_batch_size: 20
 
 services:

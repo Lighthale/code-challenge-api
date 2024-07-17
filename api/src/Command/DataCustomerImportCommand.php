@@ -58,43 +58,6 @@ class DataCustomerImportCommand extends Command
         }
 
         $users = $this->randomUserService->fetchUsers($minImport);
-        // Test data
-//        $users[] = [
-//            'gender' => 'female',
-//            'name' => [
-//                'first' => 'Lorem',
-//                'last' => 'Ipsum'
-//            ],
-//            'location' => [
-//                'city' => 'Bathurst',
-//                'country' => 'Australia'
-//            ],
-//            'email' => 'paula.gray@example.com',
-//            'login' => [
-//                'username' => 'blackfish105',
-//                'password' => 'qwerty'
-//            ],
-//            'phone' => '06-1721-1099',
-//        ];
-//
-//        $users[] = [
-//            'gender' => 'male',
-//            'name' => [
-//                'first' => 'John',
-//                'last' => 'Doe'
-//            ],
-//            'location' => [
-//                'city' => 'Bathurst',
-//                'country' => 'Australia'
-//            ],
-//            'email' => 'john.doe@example.com',
-//            'login' => [
-//                'username' => 'blackfish105',
-//                'password' => 'qwerty'
-//            ],
-//            'phone' => '06-1721-1099',
-//        ];
-
         $this->customerRepository->storeUsersAsCustomers($users);
         $io->success('Done!');
 

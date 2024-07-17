@@ -29,7 +29,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Customer
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
     #[Groups('get')]
     private ?int $id = null;

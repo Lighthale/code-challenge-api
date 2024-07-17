@@ -15,15 +15,15 @@ class CustomersTest extends ApiTestCase
     public function testGetCustomers(): void
     {
         CustomerFactory::createMany(100);
-
-        static::createClient()->request('GET', '/customers');
-
+        $response = static::createClient()->request('GET', '/customers');
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
+        $this->assertNotEmpty($response->getContent());
         $this->assertJsonContains([
             '@context' => '/contexts/Customer',
             '@type' => 'hydra:Collection'
         ]);
+        $this->assertMatchesResourceCollectionJsonSchema(Customer::class);
     }
 
     public function testGetCustomerById(): void
@@ -31,25 +31,23 @@ class CustomersTest extends ApiTestCase
         $testEmail = 'john.doe@email.com';
         CustomerFactory::createOne(['email' => $testEmail, 'password' => 'loremipsum']);
         $iri = $this->findIriBy(Customer::class, ['email' => $testEmail]);
-
-        static::createClient()->request('GET', $iri);
-
+        $response = static::createClient()->request('GET', $iri);
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
+        $this->assertNotEmpty($response->getContent());
         $this->assertJsonContains([
             '@context' => '/contexts/Customer',
             '@type' => 'Customer',
             'email' => $testEmail
         ]);
+        $this->assertMatchesResourceItemJsonSchema(Customer::class);
     }
 
     public function testGetNonExistentCustomerById(): void
     {
-        $testEmail = 'john.doe@email.com';
-        CustomerFactory::createOne(['email' => $testEmail, 'password' => 'loremipsum']);
-
-        static::createClient()->request('GET', 'customers/9999');
-
+        CustomerFactory::createMany(100);
+        static::createClient()->request('GET', 'customers/0');
         $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains(['detail' => 'Not Found']);
     }
 }
